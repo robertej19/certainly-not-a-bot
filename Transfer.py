@@ -18,11 +18,8 @@ def nap(s=1):
    print("done sleeping")
 
 CHROME_DRIVER_LOCATION = r'/home/bobby/selinium-driver/chromedriver.exe'
-SEARCH_TERMS = ['mit', 'ifhtp']
-TARGET_SAVE_LOCATION = os.path.join(r'pictures/test', '_'.join([x.capitalize() for x in SEARCH_TERMS]),  r'{}.{}')
-if not os.path.isdir(os.path.dirname(TARGET_SAVE_LOCATION)):
-    os.makedirs(os.path.dirname(TARGET_SAVE_LOCATION))
 
+print("ChromeDriver Location is: {} (make sure this exists!!!)".format(CHROME_DRIVER_LOCATION))
 def check_if_result_b64(source):
     possible_header = source.split(',')[0]
     if possible_header.startswith('data') and ';base64' in possible_header:
@@ -49,22 +46,33 @@ def get_driver():
 
 driver = get_driver()
 
+s_no = "197"
+s_name = "Clifton"
+c_name = "Malden"
+z_no = "02148"
+
+print("entering info: {} {} {} {}".format(s_no, s_name, c_name, z_no))
 
 street_no = driver.find_element_by_name("ctl00$MainContent$txtStreetNo")
-street_no.send_keys("69")
+street_no.send_keys(s_no)
 #nap(1)
 
 street_name = driver.find_element_by_name("ctl00$MainContent$txtStreetName")
-street_name.send_keys("Main")
+street_name.send_keys(s_name)
 #nap(0.25)
 
 city_name = driver.find_element_by_name("ctl00$MainContent$ddlCityTown")
-city_name.send_keys("Palmer")
+city_name.send_keys(c_name)
 #nap(0.25)
 
 zip_no = driver.find_element_by_name("ctl00$MainContent$txtZip")
-zip_no.send_keys("01069")
+zip_no.send_keys(z_no)
 #nap(0.25)
 
 search_button = driver.find_element_by_name("ctl00$MainContent$btnSearch")
 search_button.click()
+
+nap(1.5)
+
+precinct_number = driver.find_element_by_id("MainContent_lblPrecinctNo")
+print("Precint number for {} {} {} {} is {}".format(s_no, s_name, c_name, z_no, precinct_number.text))
